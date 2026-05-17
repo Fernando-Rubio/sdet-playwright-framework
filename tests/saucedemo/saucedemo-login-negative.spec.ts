@@ -1,10 +1,11 @@
 import {  test, expect} from '@playwright/test';
 import { LoginPage } from '../../pages/saucedemo/LoginPage';
+import { lockedOutUser, invalidPasswordUser } from '../../utils/testData';
 
 test('locked out user cannot login', async ({ page }) => {
     const loginPage = new LoginPage(page);      
     await loginPage.goto();
-    await loginPage.login('locked_out_user', 'secret_sauce');
+    await loginPage.login(lockedOutUser.username, lockedOutUser.password);
 
     await expect(loginPage.errorMessage).toBeVisible();
     await expect(loginPage.errorMessage).toContainText('Sorry, this user has been locked out.');
@@ -14,8 +15,8 @@ test('locked out user cannot login', async ({ page }) => {
 test('inalid password shows error message', async ({ page }) => {
     const loginPage = new LoginPage(page);      
     await loginPage.goto();
-    await loginPage.login('standard_user', 'wrong_password');
-    
+    await loginPage.login(invalidPasswordUser.username, invalidPasswordUser.password);
+
     await expect(loginPage.errorMessage).toBeVisible();
     await expect(loginPage.errorMessage).toContainText('Username and password do not match any user in this service');
 })

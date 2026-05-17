@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../../pages/saucedemo/LoginPage';
 import { InventoryPage } from '../../pages/saucedemo/InventoryPage';
 import { CheckoutPage } from '../../pages/saucedemo/CheckoutPage';
+import { validUser, checkoutInfo } from '../../utils/testData';
 
 test('user can complete checkout', async ({ page }) => {
     const loginPage = new LoginPage(page);
@@ -9,7 +10,7 @@ test('user can complete checkout', async ({ page }) => {
     const checkoutPage = new CheckoutPage(page);
 
     await loginPage.goto();
-    await loginPage.login('standard_user', 'secret_sauce');
+    await loginPage.login(validUser.username, validUser.password);
 
     await inventoryPage.addBackpack();
     await inventoryPage.openCart();
@@ -17,9 +18,9 @@ test('user can complete checkout', async ({ page }) => {
     await page.locator('#checkout').click();
 
     await checkoutPage.fillCheckoutInfo(
-        'John',
-        'Doe',
-        '12345'
+        checkoutInfo.firstName,
+        checkoutInfo.lastName,
+        checkoutInfo.postalCode 
     );
 
     await checkoutPage.continueCheckout();
