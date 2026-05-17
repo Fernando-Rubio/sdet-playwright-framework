@@ -41,3 +41,27 @@ API:
 
 ...bash 
 npx playwright test
+
+Run API only: 
+npx playwright test tests/api
+
+Open report:
+npx playwright show-report
+
+## Parallel Execution 
+
+This framework supports parallel execution using Playwright workers.
+
+Playwright runs tests simultaneously to reduce execution time.
+
+Configuration: 
+
+'''ts 
+fullyParallel: true,
+workers: process.env.CI ? 1 : undefined, 
+
+'''md id="unwdpm"
+
+## CI
+
+GitHub Actions automatically executes tests on push.
